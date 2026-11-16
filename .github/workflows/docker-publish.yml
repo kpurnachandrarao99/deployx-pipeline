@@ -28,8 +28,9 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./app
-          file: ./app/Dockerfile.v2
+          file: ./app/Dockerfile
           push: true
           tags: |
             deployx/deployx-notes-api:1.0
             deployx/deployx-notes-api:latest
+            deployx/deployx-notes-api:week1
