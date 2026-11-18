@@ -1,7 +1,16 @@
 
+# Git files
 .git
+
+# Environment and secret files
 .env
+.env.*
+
+# Docker configuration
 Dockerfile
+
+# Node.js dependencies
 node_modules
-npm-debug.log
-.DS_Store
+
+# Debug logs
+npm-debug.log*

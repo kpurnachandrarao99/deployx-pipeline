@@ -1,33 +1,28 @@
 
-const express = require('express');
+const express = require("express");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+// In-memory notes storage
 let notes = [];
 
-app.get('/health', (req, res) => {
-    res.json({ status: 'ok' });
+// Health API
+app.get("/health", (req, res) => {
+    res.json({ status: "ok" });
 });
 
-app.get('/notes', (req, res) => {
+// Get all notes
+app.get("/notes", (req, res) => {
     res.json(notes);
 });
 
-app.post('/notes', (req, res) => {
-    const { text } = req.body;
-
-    if (!text) {
-        return res.status(400).json({
-            error: 'Note text is required'
-        });
-    }
-
+// Create a new note
+app.post("/notes", (req, res) => {
     const note = {
         id: notes.length + 1,
-        text: text
+        content: req.body.content
     };
 
     notes.push(note);
@@ -35,6 +30,9 @@ app.post('/notes', (req, res) => {
     res.status(201).json(note);
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Notes API running on port ${PORT}`);
+// Start server
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
 });

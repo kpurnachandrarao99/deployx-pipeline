@@ -1,20 +1,5 @@
-
-# Node.js dependencies
 node_modules/
-
-# Environment variables and secrets
+**/node_modules/
 .env
 .env.*
-!.env.example
-
-# Logs
-*.log
-npm-debug.log*
-
-# Operating system files
-.DS_Store
-Thumbs.db
-
-# IDE files
-.vscode/
-.idea/
+Postman*.exe

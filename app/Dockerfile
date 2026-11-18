@@ -1,31 +1,33 @@
-
-# Stage 1: Install production dependencies
-FROM node:26-bookworm-slim AS dependencies
+# Stage 1: Build stage
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
+# Copy package files
 COPY package*.json ./
 
-RUN npm ci --omit=dev
+# Install dependencies
+RUN npm install
 
+# Copy application source code
+COPY . .
 
-# Stage 2: Create lean production image
-FROM node:26-bookworm-slim AS production
+# Stage 2: Production stage
+FROM node:20-alpine AS production
 
 WORKDIR /app
 
-# Production environment
 ENV NODE_ENV=production
 
-# Copy only required files from dependencies stage
-COPY --from=dependencies --chown=node:node /app/node_modules ./node_modules
+# Create non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-COPY --chown=node:node package*.json ./
-COPY --chown=node:node server.js ./
+# Copy application from build stage
+COPY --from=build --chown=appuser:appgroup /app .
 
-# Run as non-root user
-USER node
+# Switch to non-root user
+USER appuser
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["npm", "start"]

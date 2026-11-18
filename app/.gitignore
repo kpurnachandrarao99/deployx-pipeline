@@ -1,0 +1,12 @@
+@'
+# Node.js dependencies
+node_modules/
+**/node_modules/
+
+# Environment files
+.env
+.env.*
+
+# Installer files
+Postman*.exe
+'@ | Set-Content -Encoding utf8 .\.gitignore
